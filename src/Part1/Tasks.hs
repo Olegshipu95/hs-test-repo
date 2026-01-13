@@ -21,12 +21,13 @@ mySin x = sum [ term n | n <- [0..10] ]
 -- косинус числа (формула Тейлора)
 -- Аналогия с sin
 myCos :: Double -> Double
-myCos x = sum [ term n | n <- [0..10] ]
+myCos x = sum [ term n | n <- [0..20] ]  -- увеличить количество членов
   where
     y = normalize x
     term n =
       let sign = if even n then 1 else -1
       in fromIntegral sign * y^(2*n) / fromIntegral (fact (2*n))
+
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer
@@ -36,12 +37,11 @@ myGCD a b = myGCD b (a `mod` b)
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
-isDateCorrect y m day
-    | y <= 0 = False
-    | m < 1 || m > 12 = False
-    | day < 1   = False
-    | day > daysInMonth y m = False
-    | otherwise = True
+isDateCorrect day month year
+    | year <= 0 || month < 1 || month > 12 || day < 1 = False
+    | month == 2 = day <= if isLeapYear year then 29 else 28
+    | month `elem` [4,6,9,11] = day <= 30
+    | otherwise = day <= 31
 
 daysInMonth :: Integer -> Integer -> Integer
 daysInMonth y m
