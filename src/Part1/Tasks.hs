@@ -5,23 +5,28 @@ import Util(notImplementedYet)
 fact 0 = 1
 fact n = n * fact (n - 1)
 
+normalize :: Double -> Double
+normalize x = let p = 2*pi in x - p * fromIntegral (floor (x / p))
+
 -- синус числа (формула Тейлора)
 -- Формула Тейлора это sin x = x - x^3/3! + x^5/5! и т.д.
 mySin :: Double -> Double
 mySin x = sum [ term n | n <- [0..10] ]
   where
+    y = normalize x
     term n =
       let sign = if even n then 1 else -1
-      in fromIntegral sign * x^(2*n + 1) / fromIntegral (fact (2*n + 1))
+      in fromIntegral sign * y^(2*n + 1) / fromIntegral (fact (2*n + 1))
 
 -- косинус числа (формула Тейлора)
 -- Аналогия с sin
 myCos :: Double -> Double
 myCos x = sum [ term n | n <- [0..10] ]
   where
+    y = normalize x
     term n =
       let sign = if even n then 1 else -1
-      in fromIntegral sign * x^(2*n) / fromIntegral (fact (2*n))
+      in fromIntegral sign * y^(2*n) / fromIntegral (fact (2*n))
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer

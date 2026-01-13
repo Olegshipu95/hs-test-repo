@@ -55,15 +55,11 @@ replaceVar name replacement term =
 evaluate :: Term -> Term
 evaluate term =
   case term of
-    IntConstant _ ->
-      term
-
-    Variable _ ->
-      error "cannot eval this"
-
+    IntConstant _ -> term
+    Variable _    -> term
     BinaryTerm op left right ->
-      case (evaluate left, evaluate right) of
-        (IntConstant l, IntConstant r) ->
-          IntConstant (applyOp op l r)
-        _ ->
-          error "unexpected term"
+      let l = evaluate left
+          r = evaluate right
+      in case (l, r) of
+           (IntConstant lv, IntConstant rv) -> IntConstant (applyOp op lv rv)
+           _ -> BinaryTerm op l r
