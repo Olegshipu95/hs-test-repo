@@ -32,10 +32,10 @@ myGCD a b = myGCD b (a `mod` b)
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
 isDateCorrect y m day
-    | y <= 0 = false
-    | m < 1 || m > 12 = false
-    | day < 1   = false
-    | day > daysInMonth y m = false
+    | y <= 0 = False
+    | m < 1 || m > 12 = False
+    | day < 1   = False
+    | day > daysInMonth y m = False
     | otherwise = True
 
 daysInMonth :: Integer -> Integer -> Integer
